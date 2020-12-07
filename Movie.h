@@ -74,6 +74,6 @@ void Filter (vector <Movie> &);
 
 //int CalculateProfit(vector <Cinema> &, Movie*, int);
 
-void initialisation(vector <Movie> &, vector <Cinema> &);
+void initialization(vector <Movie> &, vector <Cinema> &);
 
 void sortbydate(vector <Movie> &, int, int);
