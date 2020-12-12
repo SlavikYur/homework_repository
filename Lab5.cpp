@@ -25,14 +25,14 @@ int main()
                 cinemas[k].setTicketsSold(i, j, (i+1)*(DAYSNUMBER-j));
 
     cout << "Filtering by ranking and release date. Write the lowest desired bound of ranking, release year and genre:" << endl;
-    Filter(movies);
+    filter(movies);
 
     cout << "Calculating profit earned by <<" << movies[0].getTitle() <<">> for the certain day. Write the number of the day:" << endl;
     cin >> day;
-    cout << CalculateProfit(cinemas, &movies[0], --day) << endl << endl;
+    cout << calculateProfit(cinemas, &movies[0], --day) << endl << endl;
 
     cout << "Sorting by release date:" << endl;
-    sortbydate(movies, 0, MOVIENUMBER-1);
+    sortByDate(movies, 0, MOVIENUMBER-1);
 
     for (int i=0; i<MOVIENUMBER; i++)
         cout << movies[i].getTitle() << endl;
