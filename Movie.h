@@ -38,7 +38,7 @@ public:
 
     friend void filter(vector <Movie> &);
 
-    friend void sortbydate(vector <Movie> &, int, int);
+    friend void sortByDate(vector <Movie> &, int, int);
 
     friend int calculateProfit(vector <Cinema> &, Movie*, int);
 };
