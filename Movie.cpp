@@ -11,14 +11,14 @@ Movie::Movie() {}
 
 Movie::Movie(string id, string title, float ranking, int date, int charn, int price, string com, MovieType type)
     {
-        this -> Id = id;
-        this -> Title = title;
-        this -> Ranking = ranking;
-        this -> ReleaseDate = date;
-        this -> CharacterNumber = charn;
-        this -> TicketPrice = price;
-        this -> Comment = com;
-        this -> Type = type;
+        this -> id = id;
+        this -> title = title;
+        this -> ranking = ranking;
+        this -> releaseDate = date;
+        this -> characterNumber = charn;
+        this -> ticketPrice = price;
+        this -> comment = com;
+        this -> type = type;
     };
 
 Movie::~Movie(){}
@@ -26,33 +26,33 @@ Movie::~Movie(){}
 
 string Movie::getTitle()
     {
-        return this -> Title;
+        return this -> title;
     }
 
 Cinema::Cinema() {}
 
 Cinema::Cinema(string name, string location)
     {
-        this -> Name = name;
-        this -> Location = location;
+        this -> name = name;
+        this -> location = location;
     }
 
 Cinema::~Cinema()
     {
-        for (int i=0; i<this -> MoviesNumber; i++)
+        for (int i=0; i<this -> moviesNumber; i++)
             delete[] money[i];
     }
 
 int Cinema::getMovNum()
     {
-        return this -> MoviesNumber;
+        return this -> moviesNumber;
     }
 
 
-void Cinema::AddMovie(Movie movie)
+void Cinema::addMovie(Movie movie)
     {
-        MoviesInCinema.push_back(movie);
-        this -> MoviesNumber++;
+        moviesInCinema.push_back(movie);
+        this -> moviesNumber++;
         money.push_back(new int[DAYSNUMBER*sizeof(int)]);
     }
 
@@ -62,7 +62,7 @@ void Cinema::setTicketsSold (int movienumber, int day, int number)
     }
 
 
-void Filter (vector <Movie> &movies)
+void filter (vector <Movie> &movies)
 {
     int year;
     float minrate;
@@ -89,19 +89,19 @@ void Filter (vector <Movie> &movies)
 
     cout << "Variants:" << endl;
     for (int i=0; i<MOVIENUMBER; i++)
-        if ((movies[i].Ranking >= minrate) && (movies[i].ReleaseDate >= year) && (movies[i].Type == type)) cout << movies[i].Title << endl;
+        if ((movies[i].ranking >= minrate) && (movies[i].releaseDate >= year) && (movies[i].type == type)) cout << movies[i].title << endl;
     cout << endl;
 }
 
-int CalculateProfit(vector <Cinema> &cinemas, Movie* movie, int day)
+int calculateProfit(vector <Cinema> &cinemas, Movie* movie, int day)
 {
     int total=0;
 
     for (int i=0; i<CINEMANUMBER; i++)
-        for (int j=0; j<cinemas[i].MoviesNumber; j++)
-             if (cinemas[i].MoviesInCinema[j].Id == movie -> Id) {total += cinemas[i].money[j][day]; break;}
+        for (int j=0; j<cinemas[i].moviesNumber; j++)
+             if (cinemas[i].moviesInCinema[j].id == movie -> id) {total += cinemas[i].money[j][day]; break;}
 
-    return total*movie -> TicketPrice;
+    return total*movie -> ticketPrice;
 }
 
 void initialization(vector <Movie> &movies, vector <Cinema> &cinemas)
@@ -117,45 +117,70 @@ void initialization(vector <Movie> &movies, vector <Cinema> &cinemas)
     cinemas.push_back(Cinema("ChernivtsiCinema","Universytetska Street, 35"));
 
 
-    cinemas[0].AddMovie(movies[0]); //The Shawshank Redemption
-    cinemas[0].AddMovie(movies[1]); //The Green Mile
-    cinemas[0].AddMovie(movies[4]); //8 Mile
+    cinemas[0].addMovie(movies[0]); //The Shawshank Redemption
+    cinemas[0].addMovie(movies[1]); //The Green Mile
+    cinemas[0].addMovie(movies[4]); //8 Mile
 
-    cinemas[1].AddMovie(movies[2]); //The Invisible Guest
-    cinemas[1].AddMovie(movies[3]); //The Intouchables
+    cinemas[1].addMovie(movies[2]); //The Invisible Guest
+    cinemas[1].addMovie(movies[3]); //The Intouchables
 
-    cinemas[2].AddMovie(movies[0]); //The Shawshank Redemption
-    cinemas[2].AddMovie(movies[1]); // The Green Mile
-    cinemas[2].AddMovie(movies[3]); // The Intouchables
+    cinemas[2].addMovie(movies[0]); //The Shawshank Redemption
+    cinemas[2].addMovie(movies[1]); // The Green Mile
+    cinemas[2].addMovie(movies[3]); // The Intouchables
 
 }
 
-void sortbydate(vector <Movie> &movies, int beginning0, int end0)
+void sortByDate(vector <Movie> &movies, int sortBegin, int sortEnd)
 {
     Movie temporary;
-    if (((end0-beginning0) <= 1) && (movies[beginning0].ReleaseDate >= movies[end0].ReleaseDate)) {temporary = movies[beginning0]; movies[beginning0] = movies[end0]; movies[end0] = temporary;}
+    if (((sortEnd-sortBegin) <= 1) && (movies[sortBegin].releaseDate >= movies[sortEnd].releaseDate)) 
+        {
+            temporary = movies[sortBegin]; 
+            movies[sortBegin] = movies[sortEnd]; 
+            movies[sortEnd] = temporary;
+        }
 
         else
 
-        {
-
-    Movie pivot = movies[end0];
-    int wall = beginning0;
-
-    for (int i=beginning0; i<=end0-1; i++)
     {
-        if (movies[i].ReleaseDate <= pivot.ReleaseDate) {temporary = movies[i]; movies[i] = movies[wall]; movies[wall] = temporary; wall++;}
+
+    Movie pivot = movies[sortEnd];
+    int wall = sortBegin;
+
+    for (int i=sortBegin; i<=sortEnd-1; i++)
+    {
+        if (movies[i].releaseDate <= pivot.releaseDate) 
+            {
+                temporary = movies[i]; 
+                movies[i] = movies[wall]; 
+                movies[wall] = temporary; 
+                wall++;
+            }
 
     }
 
 
-    if (wall == end0) {sortbydate(movies, beginning0, end0-1);} else
-        if ((wall - beginning0) <= 1) { temporary = pivot; movies[end0] = movies[wall]; movies[wall] = temporary; sortbydate(movies, wall+1, end0);} else
+    if (wall == sortEnd) 
+        sortByDate(movies, sortBegin, sortEnd-1); 
+            
+    else
+        
+    if ((wall - sortBegin) <= 1) 
+    { 
+        temporary = pivot; 
+        movies[sortEnd] = movies[wall]; 
+        movies[wall] = temporary; 
+        sortByDate(movies, wall+1, sortEnd);
+    } 
+    else
     {
 
-        temporary = pivot; movies[end0] = movies[wall]; movies[wall] = temporary;
-        sortbydate(movies, beginning0, wall-1);
-        sortbydate(movies, wall+1, end0);
+        temporary = pivot; 
+        movies[sortEnd] = movies[wall]; 
+        movies[wall] = temporary;
+        
+        sortByDate(movies, sortBegin, wall-1);
+        sortByDate(movies, wall+1, sortEnd);
     }
 
     }
