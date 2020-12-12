@@ -27,7 +27,7 @@ int main()
     cout << "Filtering by ranking and release date. Write the lowest desired bound of ranking, release year and genre:" << endl;
     filter(movies);
 
-    cout << "Calculating profit earned by <<" << movies[0].getTitle() <<">> for the certain day. Write the number of the day:" << endl;
+    cout << "Calculating profit earned by <<" << movies[0].getTitle() <<">> for the certain day. Write the number of the day (1-30):" << endl;
     cin >> day;
     cout << calculateProfit(cinemas, &movies[0], --day) << endl << endl;
 
