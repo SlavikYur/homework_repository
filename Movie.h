@@ -68,12 +68,4 @@ public:
     friend int calculateProfit(vector <Cinema> &, Movie*, int);
 };
 
-
-
-void filter (vector <Movie> &);
-
-//int CalculateProfit(vector <Cinema> &, Movie*, int);
-
 void initialization(vector <Movie> &, vector <Cinema> &);
-
-void sortByDate(vector <Movie> &, int, int);
