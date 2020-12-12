@@ -18,14 +18,14 @@ class Cinema;
 class Movie
 {
 private:
-    string Id;
-    string Title;
-    float Ranking;
-    int ReleaseDate;
-    int CharacterNumber;
-    int TicketPrice;
-    string Comment;
-    MovieType Type;
+    float ranking;
+    int releaseDate;
+    int characterNumber;
+    int ticketPrice;
+    string id;
+    string title;
+    string comment;
+    MovieType type;
 
 
 public:
@@ -36,21 +36,21 @@ public:
 
     string getTitle();
 
-    friend void Filter(vector <Movie> &);
+    friend void filter(vector <Movie> &);
 
     friend void sortbydate(vector <Movie> &, int, int);
 
-    friend int CalculateProfit(vector <Cinema> &, Movie*, int);
+    friend int calculateProfit(vector <Cinema> &, Movie*, int);
 };
 
 
 class Cinema
 {
 private:
-    string Name;
-    string Location;
-    vector <Movie> MoviesInCinema;
-    int MoviesNumber=0;
+    string name;
+    string location;
+    vector <Movie> moviesInCinema;
+    int moviesNumber=0;
     vector <int*> money;
 
 
@@ -61,19 +61,19 @@ public:
 
     int getMovNum();
 
-    void AddMovie(Movie);
+    void addMovie(Movie);
 
     void setTicketsSold (int, int, int);
 
-    friend int CalculateProfit(vector <Cinema> &, Movie*, int);
+    friend int calculateProfit(vector <Cinema> &, Movie*, int);
 };
 
 
 
-void Filter (vector <Movie> &);
+void filter (vector <Movie> &);
 
 //int CalculateProfit(vector <Cinema> &, Movie*, int);
 
 void initialization(vector <Movie> &, vector <Cinema> &);
 
-void sortbydate(vector <Movie> &, int, int);
+void sortByDate(vector <Movie> &, int, int);
